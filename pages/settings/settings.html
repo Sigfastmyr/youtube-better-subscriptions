@@ -3,174 +3,175 @@
 
   <title>Settings for Better Subscriptions for YouTube&trade;</title>
 
-  <link rel="stylesheet" type="text/css" href="../../common.css"/>
-  <link rel="stylesheet" type="text/css" href="settings.css"/>
+  <link rel="stylesheet" type="text/css" href="../../common.css" />
+  <link rel="stylesheet" type="text/css" href="settings.css" />
 
   <script src="../../common.js"></script>
   <script src="../../settingsLoader.js"></script>
   <script src="../../util.js"></script>
   <script src="settings.js"></script>
 </head>
+
 <body>
-<div class="settings__container">
-  <h1>Settings for Better Subscriptions for YouTube&trade;</h1>
+  <div class="settings__container">
+    <h1>Settings for Better Subscriptions for YouTube&trade;</h1>
 
-  <h2>Subscriptions Feed</h2>
+    <h2>Subscriptions Feed</h2>
 
-  <div class="sk-circle">
-    <div class="sk-circle1 sk-child"></div>
-    <div class="sk-circle2 sk-child"></div>
-    <div class="sk-circle3 sk-child"></div>
-    <div class="sk-circle4 sk-child"></div>
-    <div class="sk-circle5 sk-child"></div>
-    <div class="sk-circle6 sk-child"></div>
-    <div class="sk-circle7 sk-child"></div>
-    <div class="sk-circle8 sk-child"></div>
-    <div class="sk-circle9 sk-child"></div>
-    <div class="sk-circle10 sk-child"></div>
-    <div class="sk-circle11 sk-child"></div>
-    <div class="sk-circle12 sk-child"></div>
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+
+    <div id="settings-subscriptions" class="hidden">
+      <form>
+        <input id="settings.hide.watched.label" type="checkbox" />
+        <label for="settings.hide.watched.label">Show "Hide Watched" label</label><br />
+
+        <input id="settings.hide.watched.all.label" type="checkbox" />
+        <label for="settings.hide.watched.all.label">Show "Mark all as watched" label</label><br />
+
+        <input id="settings.hide.watched.ui.stick.right" type="checkbox" />
+        <label for="settings.hide.watched.ui.stick.right">Stick UI to the right menu</label><br />
+        <br />
+
+        <input id="settings.hide.watched.default" type="checkbox" />
+        <label for="settings.hide.watched.default">Hide watched default state</label><br />
+
+        <input id="settings.max.video.age.days" type="number" min="0" style="width: 5em;" />
+        <label for="settings.max.video.age.days">Hide videos older than (days, 0 = no limit)</label><br />
+
+
+        <input id="settings.hide.watched.keep.state" type="checkbox" />
+        <label for="settings.hide.watched.keep.state">
+          Keep the state of "Hide Watched" checkbox through navigation
+          (allows you to go on video/channel/sub/etc pages and save the state of "Hide Watched" checkbox despite the
+          default value (it will be applied on reload).)
+        </label><br />
+
+        <!--TODO allow percentage selection -->
+        <input id="settings.mark.watched.youtube.watched" type="checkbox" />
+        <label for="settings.mark.watched.youtube.watched">
+          Use YouTube&trade;'s watched gauge (red bar on bottom of thumbnail) to mark as watched.
+          (Unchecking will NOT affect videos already marked using this. Requires sub feed page reload to be applied)
+        </label><br />
+
+        <input id="settings.hide.premieres" type="checkbox" />
+        <label for="settings.hide.premieres">Hide Premieres until they are available to watch</label><br />
+
+        <input id="settings.hide.shorts" type="checkbox" />
+        <label for="settings.hide.shorts">Hide Shorts automatically</label><br />
+        <br />
+
+        <label for="settings.hide.watched.refresh.rate">Refresh rate for feed clearing (milliseconds)</label>
+        <input id="settings.hide.watched.refresh.rate" type="number" /><br />
+        <label for="settings.hide.watched.refresh.rate">(currently works only in "hide watched" state)</label>
+
+      </form>
+    </div>
+
+    <h2>Other YouTube&trade; pages</h2>
+
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+
+    <div id="settings-support-pages" class="hidden">
+      <form>
+        <input id="settings.hide.watched.support.channel" type="checkbox" />
+        <label for="settings.hide.watched.support.channel">Enable extension for channel videos page</label><br />
+        <input id="settings.hide.watched.support.home" type="checkbox" />
+        <label for="settings.hide.watched.support.home">Enable extension for YouTube&trade; Homepage</label>
+      </form>
+    </div>
+
+    <h2>General settings</h2>
+
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+
+    <div id="settings-general" class="hidden">
+      <form>
+        <input id="settings.hide.watched.auto.store" type="checkbox" />
+        <label for="settings.hide.watched.auto.store">
+          Set video as watched when you click on it.
+          (Disabling this means videos are only marked as watched when you click the 'Mark as watched' icon)
+        </label><br />
+
+        <input id="settings.log.enabled" type="checkbox" />
+        <label for="settings.log.enabled">Enable logging</label><br />
+      </form>
+    </div>
+
+    <button id="settings-save">Save Settings</button>
+
+    <h2>Watched videos list actions</h2>
+
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+
+    <div id="settings-watched-manipulation" class="hidden">
+      <button id="watched.export">Export watched videos</button>
+      <br />
+      <br />
+      <button id="watched.import">Import watched videos</button>
+      <input id="watched.import.file" type="file" /><br />
+      <br />
+      <button id="watched.clear">Clear watched videos</button>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h4>Have a suggestion what else could go into the settings page or overall improve the addon? Something doesn't work
+      as it should? Please feel free to raise an issue on <a
+        href="https://github.com/OsaSoft/youtube-better-subscriptions/issues">GitHub</a></h4>
   </div>
-
-  <div id="settings-subscriptions" class="hidden">
-    <form>
-      <input id="settings.hide.watched.label" type="checkbox"/>
-      <label for="settings.hide.watched.label">Show "Hide Watched" label</label><br/>
-
-      <input id="settings.hide.watched.all.label" type="checkbox"/>
-      <label for="settings.hide.watched.all.label">Show "Mark all as watched" label</label><br/>
-
-      <input id="settings.hide.watched.ui.stick.right" type="checkbox"/>
-      <label for="settings.hide.watched.ui.stick.right">Stick UI to the right menu</label><br/>
-      <br/>
-
-      <input id="settings.hide.watched.default" type="checkbox"/>
-      <label for="settings.hide.watched.default">Hide watched default state</label><br/>
-
-      <input id="settings.hide.watched.keep.state" type="checkbox"/>
-      <label for="settings.hide.watched.keep.state">
-        Keep the state of "Hide Watched" checkbox through navigation
-        (allows you to go on video/channel/sub/etc pages and save the state of "Hide Watched" checkbox despite the
-        default value (it will be applied on reload).)
-      </label><br/>
-
-      <!--TODO allow percentage selection -->
-      <input id="settings.mark.watched.youtube.watched" type="checkbox"/>
-      <label for="settings.mark.watched.youtube.watched">
-        Use YouTube&trade;'s watched gauge (red bar on bottom of thumbnail) to mark as watched.
-        (Unchecking will NOT affect videos already marked using this. Requires sub feed page reload to be applied)
-      </label><br/>
-
-      <input id="settings.hide.premieres" type="checkbox"/>
-      <label for="settings.hide.premieres">Hide Premieres until they are available to watch</label><br/>
-
-      <input id="settings.hide.shorts" type="checkbox"/>
-      <label for="settings.hide.shorts">Hide Shorts automatically</label><br/>
-      <br/>
-
-    <label for="settings.hide.older.than.days">Hide videos older than (days):</label>
-    <input id="settings.hide.older.than.days" type="number" min="0" value="0" style="width: 60px;"/><br/>
-    <label for="settings.hide.older.than.days">(0 disables this filter)</label><br/>
-
-      <label for="settings.hide.watched.refresh.rate">Refresh rate for feed clearing (milliseconds)</label>
-      <input id="settings.hide.watched.refresh.rate" type="number"/><br/>
-      <label for="settings.hide.watched.refresh.rate">(currently works only in "hide watched" state)</label>
-
-    </form>
-  </div>
-
-  <h2>Other YouTube&trade; pages</h2>
-
-  <div class="sk-circle">
-    <div class="sk-circle1 sk-child"></div>
-    <div class="sk-circle2 sk-child"></div>
-    <div class="sk-circle3 sk-child"></div>
-    <div class="sk-circle4 sk-child"></div>
-    <div class="sk-circle5 sk-child"></div>
-    <div class="sk-circle6 sk-child"></div>
-    <div class="sk-circle7 sk-child"></div>
-    <div class="sk-circle8 sk-child"></div>
-    <div class="sk-circle9 sk-child"></div>
-    <div class="sk-circle10 sk-child"></div>
-    <div class="sk-circle11 sk-child"></div>
-    <div class="sk-circle12 sk-child"></div>
-  </div>
-
-  <div id="settings-support-pages" class="hidden">
-    <form>
-      <input id="settings.hide.watched.support.channel" type="checkbox"/>
-      <label for="settings.hide.watched.support.channel">Enable extension for channel videos page</label><br/>
-      <input id="settings.hide.watched.support.home" type="checkbox"/>
-      <label for="settings.hide.watched.support.home">Enable extension for YouTube&trade; Homepage</label>
-    </form>
-  </div>
-
-  <h2>General settings</h2>
-
-  <div class="sk-circle">
-    <div class="sk-circle1 sk-child"></div>
-    <div class="sk-circle2 sk-child"></div>
-    <div class="sk-circle3 sk-child"></div>
-    <div class="sk-circle4 sk-child"></div>
-    <div class="sk-circle5 sk-child"></div>
-    <div class="sk-circle6 sk-child"></div>
-    <div class="sk-circle7 sk-child"></div>
-    <div class="sk-circle8 sk-child"></div>
-    <div class="sk-circle9 sk-child"></div>
-    <div class="sk-circle10 sk-child"></div>
-    <div class="sk-circle11 sk-child"></div>
-    <div class="sk-circle12 sk-child"></div>
-  </div>
-
-  <div id="settings-general" class="hidden">
-    <form>
-      <input id="settings.hide.watched.auto.store" type="checkbox"/>
-      <label for="settings.hide.watched.auto.store">
-        Set video as watched when you click on it.
-        (Disabling this means videos are only marked as watched when you click the 'Mark as watched' icon)
-      </label><br/>
-
-      <input id="settings.log.enabled" type="checkbox"/>
-      <label for="settings.log.enabled">Enable logging</label><br/>
-    </form>
-  </div>
-
-  <button id="settings-save">Save Settings</button>
-
-  <h2>Watched videos list actions</h2>
-
-  <div class="sk-circle">
-    <div class="sk-circle1 sk-child"></div>
-    <div class="sk-circle2 sk-child"></div>
-    <div class="sk-circle3 sk-child"></div>
-    <div class="sk-circle4 sk-child"></div>
-    <div class="sk-circle5 sk-child"></div>
-    <div class="sk-circle6 sk-child"></div>
-    <div class="sk-circle7 sk-child"></div>
-    <div class="sk-circle8 sk-child"></div>
-    <div class="sk-circle9 sk-child"></div>
-    <div class="sk-circle10 sk-child"></div>
-    <div class="sk-circle11 sk-child"></div>
-    <div class="sk-circle12 sk-child"></div>
-  </div>
-
-  <div id="settings-watched-manipulation" class="hidden">
-    <button id="watched.export">Export watched videos</button>
-    <br/>
-    <br/>
-    <button id="watched.import">Import watched videos</button>
-    <input id="watched.import.file" type="file"/><br/>
-    <br/>
-    <button id="watched.clear">Clear watched videos</button>
-  </div>
-
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <h4>Have a suggestion what else could go into the settings page or overall improve the addon? Something doesn't work
-    as it should? Please feel free to raise an issue on <a
-      href="https://github.com/OsaSoft/youtube-better-subscriptions/issues">GitHub</a></h4>
-</div>
 </body>

@@ -33,30 +33,6 @@ function buildUI() {
 
     if (settings["settings.hide.watched.ui.stick.right"])
         addedElems[0].after(...addedElems)
-
-    // Block scroll-based autoload and disable IntersectionObservers
-    blockYouTubeAutoload();
-}
-
-function blockYouTubeAutoload() {
-    // Block scroll event handlers on main containers
-    const grid = document.querySelector('ytd-rich-grid-renderer');
-    if (grid) {
-        grid.onscroll = null;
-        grid.addEventListener('scroll', e => e.stopImmediatePropagation(), true);
-    }
-    window.onscroll = null;
-    window.addEventListener('scroll', e => e.stopImmediatePropagation(), true);
-
-    // Disable all IntersectionObservers
-    if (!window._ytBetterSubs_IntersectionObserverBlocked) {
-        window._ytBetterSubs_IntersectionObserverBlocked = true;
-        const OriginalIntersectionObserver = window.IntersectionObserver;
-        window.IntersectionObserver = function() {
-            return { observe: () => {}, unobserve: () => {}, disconnect: () => {} };
-        };
-        window.IntersectionObserver.prototype = OriginalIntersectionObserver.prototype;
-    }
 }
 
 function buildMenuButtonContainer() {
@@ -88,7 +64,7 @@ function addSettingsButton() {
     addElementToMenuUI(settingsButton);
 
     let messenger = document.getElementById(SETTINGS_BTN);
-    messenger.addEventListener("click", () => brwsr.runtime.sendMessage({"action": "openOptionsPage"}));
+    messenger.addEventListener("click", () => brwsr.runtime.sendMessage({ "action": "openOptionsPage" }));
 }
 
 function addHideAllMenuButton() {
@@ -262,26 +238,68 @@ function removeWatchedAndAddButton() {
     log("Removing watched from feed and adding overlay");
 
     let els = document.querySelectorAll(vidQuery());
+
     let hiddenCount = 0;
 
-    // Get the age filter from settings (in days)
-    let maxAgeDays = parseInt(settings["settings.hide.older.than.days"] || 0, 10);
-    let now = new Date();
-
+    // Get max age from settings (default 7 if not set, 0 disables limit)
+    let MAX_DAYS_OLD = 25;
+    if (settings && settings["settings.max.video.age.days"] !== undefined) {
+        let val = parseInt(settings["settings.max.video.age.days"], 10);
+        if (!isNaN(val)) MAX_DAYS_OLD = val;
+    }
     for (let item of els) {
         let vid = new SubscriptionVideo(item);
 
-        // Check video age if filter is enabled
-        let hideForAge = false;
-        if (maxAgeDays > 0) {
-            let publishedDate = getVideoPublishedDate(item);
-            if (publishedDate) {
-                let ageMs = now - publishedDate;
-                let ageDays = ageMs / (1000 * 60 * 60 * 24);
-                if (ageDays > maxAgeDays) {
-                    hideForAge = true;
+        // --- Hide if video is older than MAX_DAYS_OLD ---
+        let publishedText = null;
+        // Try to find the published time text in common YouTube metadata locations
+        let metaElem = item.querySelector("#metadata-line span");
+        if (metaElem) {
+            publishedText = metaElem.textContent.trim();
+        }
+        // Fallback: try to find any span with 'ago' in text
+        if (!publishedText) {
+            let spans = item.querySelectorAll("span");
+            for (let s of spans) {
+                if (s.textContent && s.textContent.match(/\bago\b/)) {
+                    publishedText = s.textContent.trim();
+                    break;
                 }
             }
+        }
+
+        let isTooOld = false;
+        if (publishedText) {
+            // Parse the publishedText (e.g., "3 days ago", "1 week ago")
+            let match = publishedText.match(/(\d+)\s*(minute|hour|day|week|month|year)s?\s+ago/i);
+            if (match) {
+                let num = parseInt(match[1], 10);
+                let unit = match[2];
+                let days = 0;
+                switch (unit) {
+                    case "minute":
+                    case "hour":
+                        days = 0; break;
+                    case "day":
+                        days = num; break;
+                    case "week":
+                        days = num * 7; break;
+                    case "month":
+                        days = num * 30; break;
+                    case "year":
+                        days = num * 365; break;
+                }
+                if (days > MAX_DAYS_OLD) {
+                    isTooOld = true;
+                    oldVideosFiltered = true;
+                }
+            }
+        }
+
+        if (isTooOld) {
+            vid.hide();
+            hiddenCount++;
+            continue;
         }
 
         if (!vid.isStored && isYouTubeWatched(item)) {
@@ -289,8 +307,7 @@ function removeWatchedAndAddButton() {
         } else if (
             (hideWatched && vid.isStored) ||
             (hidePremieres && vid.isPremiere) ||
-            (hideShorts && vid.isShort) ||
-            hideForAge
+            (hideShorts && vid.isShort)
         ) {
             vid.hide();
             hiddenCount++;
@@ -301,6 +318,7 @@ function removeWatchedAndAddButton() {
             vid.addButton();
         }
     }
+
 
     // if shorts shelf is empty, hide it
     const gridElement = document.querySelector('ytd-two-column-browse-results-renderer ytd-rich-grid-renderer #contents');
@@ -323,32 +341,11 @@ function removeWatchedAndAddButton() {
         processSections();
         loadMoreVideos();
     }
-}
 
-// Helper to extract the published date from a video item
-function getVideoPublishedDate(item) {
-    // Try to find the element that contains the published time text
-    let publishedElem = item.querySelector("#metadata-line span, .ytd-video-meta-block span");
-    if (!publishedElem) return null;
-    let text = publishedElem.textContent.trim();
-    // Examples: "3 hours ago", "2 days ago", "1 week ago", "3 months ago", "1 year ago"
-    let now = new Date();
-    let match = text.match(/(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago/i);
-    if (!match) return null;
-    let value = parseInt(match[1], 10);
-    let unit = match[2];
-    let ms = 0;
-    switch (unit) {
-        case "second": ms = value * 1000; break;
-        case "minute": ms = value * 60 * 1000; break;
-        case "hour": ms = value * 60 * 60 * 1000; break;
-        case "day": ms = value * 24 * 60 * 60 * 1000; break;
-        case "week": ms = value * 7 * 24 * 60 * 60 * 1000; break;
-        case "month": ms = value * 30 * 24 * 60 * 60 * 1000; break;
-        case "year": ms = value * 365 * 24 * 60 * 60 * 1000; break;
-        default: return null;
+    // Only block YouTube autoload if old videos were filtered
+    if (oldVideosFiltered) {
+        blockYouTubeAutoload();
     }
-    return new Date(now - ms);
 }
 
 function removeUI() {
@@ -367,4 +364,15 @@ function removeUI() {
         item.classList.remove(HIDDEN_CLASS);
     }
     hidden = [];
+}
+
+// Register the callback to run after settings are loaded
+if (typeof settingsLoadedCallbacks !== "undefined") {
+    settingsLoadedCallbacks.push(onSettingsLoaded);
+} else if (typeof settings !== "undefined" && settingsLoaded) {
+    // fallback: if settings are already loaded, run immediately
+    onSettingsLoaded();
+} else {
+    // fallback: run after DOMContentLoaded if settingsLoadedCallbacks is missing
+    document.addEventListener("DOMContentLoaded", onSettingsLoaded);
 }
